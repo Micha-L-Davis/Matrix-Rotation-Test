@@ -8,10 +8,10 @@ public class RotateMatrix : MonoBehaviour
 {
     // Initial data assigned in inspector
     [SerializeField]
-    private int[] _initialArray16 = new int[16];
+    private int[] _initialArray = new int[16];
 
     // Declare variables for base matrices to evaluate
-    private int[,] _baseMatrix4x4 = new int[4, 4];
+    private int[,] _baseMatrix = new int[4, 4];
 
     // Serialized lists for the matrix visualizer text
     [SerializeField]
@@ -35,8 +35,8 @@ public class RotateMatrix : MonoBehaviour
         while (r > 0)
         {
             int[,] rotatedMatrix = new int[4, 4];
-            rotatedMatrix = RotateClockwise(_baseMatrix4x4);
-            _baseMatrix4x4 = rotatedMatrix;
+            rotatedMatrix = RotateClockwise(_baseMatrix);
+            _baseMatrix = rotatedMatrix;
             UpdateVisualizer();
             r--;
         }
@@ -50,8 +50,8 @@ public class RotateMatrix : MonoBehaviour
         while (r > 0)
         {
             int[,] rotatedMatrix = new int[4, 4];
-            rotatedMatrix = RotateCounterClockwise(_baseMatrix4x4);
-            _baseMatrix4x4 = rotatedMatrix;
+            rotatedMatrix = RotateCounterClockwise(_baseMatrix);
+            _baseMatrix = rotatedMatrix;
             UpdateVisualizer();
             r--;
         }
@@ -68,8 +68,8 @@ public class RotateMatrix : MonoBehaviour
         int width;
         int height;
 
-        width = _baseMatrix4x4.GetUpperBound(0) + 1;
-        height = _baseMatrix4x4.GetUpperBound(1) + 1;
+        width = _baseMatrix.GetUpperBound(0) + 1;
+        height = _baseMatrix.GetUpperBound(1) + 1;
 
         // Iterate through 1D array
         int i = 0;
@@ -78,8 +78,10 @@ public class RotateMatrix : MonoBehaviour
         {
             for (int row = 0; row < height; row++)
             {
-                _baseMatrix4x4[column, row] = _initialArray16[i];
-                _cellText[i].text = _initialArray16[i].ToString();
+                _baseMatrix[column, row] = _initialArray[i];
+
+                // Update matrix visualizer
+                _cellText[i].text = _initialArray[i].ToString();
                 i++;
             }
         }
@@ -90,8 +92,8 @@ public class RotateMatrix : MonoBehaviour
         int width;
         int height;
 
-        width = _baseMatrix4x4.GetUpperBound(0) + 1;
-        height = _baseMatrix4x4.GetUpperBound(1) + 1;
+        width = _baseMatrix.GetUpperBound(0) + 1;
+        height = _baseMatrix.GetUpperBound(1) + 1;
 
         // Iterate through 1D array
         int i = 0;
@@ -100,44 +102,13 @@ public class RotateMatrix : MonoBehaviour
         {
             for (int row = 0; row < height; row++)
             {
-                _cellText[i].text = _baseMatrix4x4[column, row].ToString();
+                _cellText[i].text = _baseMatrix[column, row].ToString();
                 i++;
             }
         }
     }
 
-    
-    //private int[,] RotateClockwise(int[,] matrix)
-    //{
-    //    int width;
-    //    int height;
-    //    System.Numerics.Vector2 center;
-
-    //    width = matrix.GetUpperBound(0) + 1;
-    //    height = matrix.GetUpperBound(1) + 1;
-    //    float x = (width - 1) / 2.0f;
-    //    float y = (height - 1) / 2.0f;
-    //    Debug.Log(x + ", " + y);
-    //    center = new System.Numerics.Vector2(x, y);
-
-    //    int[,] result = new int[height, width];
-    //    for (int row = 0; row < height; row++)
-    //    {
-    //        for (int col = 0; col < width; col++)
-    //        {
-    //            System.Numerics.Vector2 vector = new System.Numerics.Vector2(row, col);
-    //            System.Numerics.Matrix3x2 rotationMatrix = 
-    //                System.Numerics.Matrix3x2.CreateRotation(0.7853982f, center); //0.7853982 is 45deg in radians
-    //            System.Numerics.Vector2 rotatedVector = System.Numerics.Vector2.Transform(vector, rotationMatrix);
-    //            Debug.Log("Original vector = " + vector.Y + ", " + vector.X + 
-    //                ", Rotated vector = " + rotatedVector.Y + ", " + rotatedVector.X);
-    //            // Expected [0,0] to become [1, 0] but here we're getting [-1, 2]
-    //            result[Mathf.RoundToInt(rotatedVector.Y), Mathf.RoundToInt(rotatedVector.X)] = matrix[col, row];
-    //        }
-    //    }
-    //    return result;
-    //}
-
+    // This should work for any even-sized matrix
     private int[,] RotateClockwise(int[,] matrix)
     {
         int width;
@@ -155,8 +126,7 @@ public class RotateMatrix : MonoBehaviour
             for (int column = 0; column < width; ++column)
             {
                 int value = matrix[row, column];
-                Debug.Log("Moving " + value);
-                Debug.Log("Checking " + column + ", " + row);
+                // Brute force logic here--I couldn't get the rotation matrix function to work with the even-numbered array.
                 if (firsthalf)
                 {
                     if (column < row)
@@ -182,10 +152,6 @@ public class RotateMatrix : MonoBehaviour
                     {
                         result[row - 1, column] = value;
                     }
-                    //else if (column < row)
-                    //{
-                    //    result[row - 1, column] = value;
-                    //}
                     else if (column > row)
                     {
                         result[row + 1, column] = value;
@@ -200,37 +166,6 @@ public class RotateMatrix : MonoBehaviour
 
         return result;
     }
-
-
-    //private int[,] RotateCounterClockwise(int[,] matrix)
-    //{
-    //    int width;
-    //    int height;
-    //    System.Numerics.Vector2 center;
-
-    //    width = matrix.GetUpperBound(0) + 1;
-    //    height = matrix.GetUpperBound(1) + 1;
-    //    float x = (width - 1) / 2.0f;
-    //    float y = (height - 1) / 2.0f;
-    //    center = new System.Numerics.Vector2(x, y);
-
-    //    int[,] result = new int[height, width];
-    //    for (int row = 0; row < height; row++)
-    //    {
-    //        for (int col = 0; col < width; col++)
-    //        {
-    //            System.Numerics.Vector2 vector = new System.Numerics.Vector2(row, col);
-    //            System.Numerics.Matrix3x2 rotationMatrix = 
-    //                System.Numerics.Matrix3x2.CreateRotation(-0.7853982f, center); // -0.7853982 is -45deg in radians
-    //            System.Numerics.Vector2 rotatedVector = System.Numerics.Vector2.Transform(vector, rotationMatrix);
-    //            Debug.Log("Original vector = " + vector.Y + ", " + vector.X +
-    //                ", Rotated vector = " + rotatedVector.Y + ", " + rotatedVector.X);
-    //            // Expected [0,0] -> [0, 1] but here we're getting [2, -1]
-    //            result[Mathf.RoundToInt(rotatedVector.Y), Mathf.RoundToInt(rotatedVector.X)] = matrix[col, row];
-    //        }
-    //    }
-    //    return result;
-    //}
 
     private int[,] RotateCounterClockwise(int[,] matrix)
     {
@@ -249,7 +184,7 @@ public class RotateMatrix : MonoBehaviour
             for (int column = 0; column < width; ++column)
             {
                 int value = matrix[row, column];
-
+                // Brute force logic here--I couldn't get the rotation matrix function to work properly with the even-numbered array.
                 if (firsthalf)
                 {
 
