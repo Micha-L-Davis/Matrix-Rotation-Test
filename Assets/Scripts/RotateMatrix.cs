@@ -63,6 +63,14 @@ public class RotateMatrix : MonoBehaviour
         _inputField.text = "" + 1;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape)
+        {
+            Application.Quit();
+        }
+    }
+
     private void LoadBaseMatrix()
     {
         int width;
