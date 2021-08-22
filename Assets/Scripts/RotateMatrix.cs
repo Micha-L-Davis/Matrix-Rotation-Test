@@ -47,7 +47,7 @@ public class RotateMatrix : MonoBehaviour
         // Iterate rotations
         int r = _rotations;
 
-        while (_rotations > 0)
+        while (r > 0)
         {
             int[,] rotatedMatrix = new int[3, 3];
             rotatedMatrix = RotateCounterClockwise(_baseMatrix3x3);
