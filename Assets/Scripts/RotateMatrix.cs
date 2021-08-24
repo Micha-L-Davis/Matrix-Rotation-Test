@@ -114,7 +114,6 @@ public class RotateMatrix : MonoBehaviour
         }
     }
 
-    
     private int[,] RotateClockwise(int[,] matrix)
     {
         int width;
@@ -123,15 +122,15 @@ public class RotateMatrix : MonoBehaviour
 
         width = matrix.GetUpperBound(0) + 1;
         height = matrix.GetUpperBound(1) + 1;
+
         float x = (width - 1) / 2.0f;
         float y = (height - 1) / 2.0f;
-        Debug.Log(x + ", " + y);
         center = new System.Numerics.Vector2(x, y);
 
-        int[,] result = new int[height, width];
-        for (int row = 0; row < height; row++)
+        int[,] result = new int[width, height];
+        for (int row = 0; row < width; row++)
         {
-            for (int col = 0; col < width; col++)
+            for (int col = 0; col < height; col++)
             {
                 System.Numerics.Vector2 vector = new System.Numerics.Vector2(row, col);
                 System.Numerics.Matrix3x2 rotationMatrix = 
