@@ -32,8 +32,10 @@ public class RotateMatrixTests
 
         int [,] result = rotateMatrix.RotateClockwise(matrix);
 
-        Assert.That(result[0, 1] == matrix[0, 0], "Top-Left Misalignment, Matrix improperly rotated."); 
-        Assert.That(result[height-1, width-2] == matrix[height-1, width-1], "Bottom-Right Misalignment, Matrix improperly rotated.");
+        Assert.That(result[0, 1] == matrix[0, 0], 
+            "Top-Left Misalignment, Matrix improperly rotated."); 
+        Assert.That(result[height-1, width-2] == matrix[height-1, width-1], 
+            "Bottom-Right Misalignment, Matrix improperly rotated.");
     }
 
     [Test]
