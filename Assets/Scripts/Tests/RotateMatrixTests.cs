@@ -7,7 +7,7 @@ using UnityEngine.TestTools;
 public class RotateMatrixTests
 {
     [Test]
-    public void RotateMatrixTest()
+    public void RotateClockwiseTest()
     {
         int n = 1;
         int[,] matrix = new int[3, 3];
