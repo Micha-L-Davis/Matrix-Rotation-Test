@@ -114,7 +114,7 @@ public class RotateMatrix : MonoBehaviour
         }
     }
 
-    private int[,] RotateClockwise(int[,] matrix)
+    public int[,] RotateClockwise(int[,] matrix)
     {
         int width;
         int height;
@@ -142,7 +142,7 @@ public class RotateMatrix : MonoBehaviour
         return result;
     }
 
-    private int[,] RotateCounterClockwise(int[,] matrix)
+    public int[,] RotateCounterClockwise(int[,] matrix)
     {
         int width;
         int height;
